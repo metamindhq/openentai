@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "openentai"
+version = "0.1.0"
+description = "Open enterprise AI"
+authors = ["\"Suman Das\" <59254445+sumandas0@users.noreply.github.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+numpy = "^2.1.0"
+transformers = "^4.44.2"
+torch = "^2.4.0"
+onnxruntime = "^1.19.0"
+openai = "^1.42.0"
+litestar = "^2.11.0"
+psycopg2 = "^2.9.9"
+uvicorn = "^0.30.6"
+
+
+[tool.poetry.group.development.dependencies]
+pytest = "^8.3.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
