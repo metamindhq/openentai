@@ -1,14 +1,16 @@
 from litestar import Litestar, get
+from modules.content.routes import content_router
 
 
 @get("/")
-async def index() -> str:
-    return "Hello, world!"
+async def index() -> dict[str, str]:
+    """
+    Return a simple system status response.
+    """
+    return {
+        "status": "ok",
+        "message": "System is running",
+        "version": "0.0.1"
+    }
 
-
-@get("/books/{book_id:int}")
-async def get_book(book_id: int) -> dict[str, int]:
-    return {"book_id": book_id}
-
-
-app = Litestar([index, get_book])
+app = Litestar(route_handlers=[index, content_router])

@@ -2,6 +2,7 @@ from pydantic import BaseModel, Field, ConfigDict
 from typing import Optional
 import numpy as np
 from datetime import datetime
+import psycopg2
 
 
 class Content(BaseModel):
@@ -24,6 +25,12 @@ class Content(BaseModel):
     
     @staticmethod
     def create_table_ddl() -> str:
+        """
+        Generate an SQL CREATE TABLE query string for the Content model.
+
+        Returns:
+            str: An SQL CREATE TABLE query string.
+        """
         query = """
         CREATE TABLE IF NOT EXISTS content (
             id VARCHAR(255) PRIMARY KEY,
@@ -43,6 +50,12 @@ class Content(BaseModel):
     
     @staticmethod
     def create_index_ddl() -> str:
+        """
+        Generate an SQL CREATE INDEX query string for the Content model.
+
+        Returns:
+            str: An SQL CREATE INDEX query string.
+        """
         query = """
         CREATE INDEX IF NOT EXISTS document_content_idx ON content (content) USING gin (to_tsvector('english', content));
         CREATE INDEX IF NOT EXISTS document_embedding_idx ON content USING diskann (embedding);
@@ -57,6 +70,12 @@ class Content(BaseModel):
     
     @staticmethod
     def get_insert_query_string() -> str:
+        """
+        Generate an SQL INSERT query string for the Content model.
+
+        Returns:
+            str: An SQL INSERT query string.
+        """
         query = """
         INSERT INTO content (id, content, embedding, policy, reference_link, created_at, updated_at, created_by, updated_by, metadata, version)
         VALUES (%(id)s, %(content)s, %(embedding)s, %(policy)s, %(reference_link)s, %(created_at)s, %(updated_at)s, %(created_by)s, %(updated_by)s, %(metadata)s, %(version)s)
@@ -64,6 +83,12 @@ class Content(BaseModel):
         return query
     
     def get_update_query_string(self) -> str:
+        """
+        Generate an SQL UPDATE query string for the Content model.
+
+        Returns:
+            str: An SQL UPDATE query string.
+        """
         query = """
         UPDATE content
         SET
@@ -81,7 +106,38 @@ class Content(BaseModel):
         return query.strip().rstrip(',')  # Remove trailing comma if present
     
     def to_dict(self) -> dict:
+        """
+        Convert the Content model to a dictionary.
+
+        Returns:
+            dict: A dictionary representation of the Content model.
+        """
         return self.model_dump()
+    
+    @staticmethod
+    def from_row(row: dict) -> 'Content':
+        """
+        Convert a psycopg2 row response to a Content model.
+        
+        Args:
+            row (dict): A dictionary representing a database row.
+        
+        Returns:
+            Content: An instance of the Content model.
+        """
+        return Content(
+            id=row.get('id'),
+            content=row.get('content'),
+            embedding=row.get('embedding'),
+            policy=row.get('policy'),
+            reference_link=row.get('reference_link'),
+            created_at=row.get('created_at'),
+            updated_at=row.get('updated_at'),
+            created_by=row.get('created_by'),
+            updated_by=row.get('updated_by'),
+            metadata=row.get('metadata'),
+            version=row.get('version')
+        )
         
         
     
