@@ -7,14 +7,26 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.12"
-numpy = "^2.1.0"
+numpy = "<2"
 transformers = "^4.44.2"
 torch = "^2.4.0"
 onnxruntime = "^1.19.0"
-openai = "^1.42.0"
+openai = ">=1.1.0"
 litestar = "^2.11.0"
 psycopg2 = "^2.9.9"
 uvicorn = "^0.30.6"
+pandas = "^2.2.2"
+tqdm = "^4.66.5"
+tenacity = "!=8.4.0"
+lazy-imports = "^0.3.1"
+jinja2 = "^3.1.4"
+posthog = "^3.6.0"
+pyyaml = "^6.0.2"
+more-itertools = "^10.4.0"
+networkx = "^3.3"
+typing-extensions = ">=4.7"
+requests = "^2.32.3"
+python-dateutil = "^2.9.0.post0"
 
 
 [tool.poetry.group.development.dependencies]

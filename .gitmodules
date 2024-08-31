@@ -1,0 +1,6 @@
+[submodule "haystack"]
+	path = haystack
+	url = git@github.com:deepset-ai/haystack.git
+[submodule "crewAI"]
+	path = crewAI
+	url = git@github.com:crewAIInc/crewAI.git
